@@ -18,11 +18,8 @@ class ConnectionDB:
         conn = sqlite3.connect(self.databaseName)
         if not self.exist:
             c = conn.cursor()
-
-            """Tables that will be used for the cart"""
-
             c.execute(
-                """create  table if not exists items(itemid integer primary key  autoincrement, description varchar(200) not null , price real not null , stock integer not null , categoryid integer not null ,foreign key(categoryid) references categories(categoryid))""")
+                """create  table if not exists items(itemid integer primary key  autoincrement,itemname varchar(100), description varchar(200) not null , price real not null , stock integer not null , categoryid integer not null ,foreign key(categoryid) references categories(categoryid))""")
             c.execute(
                 """create  table if not exists categories(categoryid integer primary key not null, name varchar(200) not null)""")
             c.execute(
@@ -30,16 +27,14 @@ class ConnectionDB:
             c.execute(
                 """create  table if not exists cart(userid integer not null,itemid integer not null, foreign key(userid) references users(userId),foreign key(itemid) references items(itemid))""")
 
-            """Inserted some data"""
-
             c.execute("""insert into categories values(1, "Men")""")
             c.execute("""insert into categories values(2, "Women")""")
-            c.execute("""insert into items values(Null, 'T-Shirt1', 2, 5, 2)""")
-            c.execute("""insert into items values(Null, 'T-Shirt2', 3, 15, 2)""")
-            c.execute("""insert into items values(Null, 'Dress1', 10, 10, 2)""")
-            c.execute("""insert into items values(Null, 'T-Shirt1', 22, 15, 1)""")
-            c.execute("""insert into items values(Null, 'Jacket1', 20, 25, 1)""")
-            c.execute("""insert into items values(Null, 'Shoes', 50, 50, 1)""")
+            c.execute("""insert into items values(Null, 'T-Shirt1', 'description T-Shirt1', 2, 5, 2)""")
+            c.execute("""insert into items values(Null, 'T-Shirt2', 'description T-Shirt2', 3, 15, 2)""")
+            c.execute("""insert into items values(Null, 'Dress1','description Dress1', 10, 10, 2)""")
+            c.execute("""insert into items values(Null, 'T-Shirt1', 'Descrition T-Shirt1', 22, 15, 1)""")
+            c.execute("""insert into items values(Null, 'Jacket1', 'description Jacket1', 20, 25, 1)""")
+            c.execute("""insert into items values(Null, 'Shoes', 'description Shoes', 50, 50, 1)""")
             c.execute(
                 """insert into users values(1, 'mfuentes', 'control123', 'mfuentes@test.com', 'Magali', 'Fuentes')""")
 
@@ -55,14 +50,14 @@ class ConnectionDB:
 
     """Method to insert Item"""
 
-    def insert_item(self, description, price, stock, categoryId):
+    def insert_item(self, itemname, description, price, stock, categoryId):
         # item = (itemid, description, price, stock, categoryId)
-        query = "INSERT INTO items VALUES (?,?, ?, ?, ?);"
+        query = "INSERT INTO items VALUES (?, ?,?, ?, ?, ?);"
 
         connection = sqlite3.connect(self.databaseName)
         cursor = connection.cursor()
         # cursor.execute(query, list(item))
-        cursor.execute(query, (None, description, price, stock, categoryId))
+        cursor.execute(query, (None,itemname, description, price, stock, categoryId))
         cursor.close()
         connection.commit()
         connection.close()
