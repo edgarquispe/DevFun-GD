@@ -1,4 +1,4 @@
-from src.com.jalasoft.ShoppingCart.DB.connectDB import ConnectionDB
+from src.com.jalasoft.ShoppingCart.DB.connectionDB import ConnectionDB
 
 
 class QueryUser:
