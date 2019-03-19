@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import QMainWindow, QMenu, QAction
-from src.com.jalasoft.test.view.product_insert_view import ProductInsertView
-from src.com.jalasoft.test.view.product_show_view import ProductShowView
+from src.com.jalasoft.ShoppingCart.view.product_insert_view import ProductInsertView
+from src.com.jalasoft.ShoppingCart.view.product_show_view import ProductShowView
+
+
 
 
 class MainView(QMainWindow):
@@ -35,3 +37,5 @@ class MainView(QMainWindow):
 
     def loadProductShowView(self):
         self.setCentralWidget(ProductShowView())
+        self.__controller.loadProduct()
+        self.__controller.addActionListener()

@@ -1,30 +1,88 @@
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QTableWidgetItem, QLineEdit
 
-from PyQt5.QtWidgets import QApplication
-
-from src.com.jalasoft.test.model.product import Product
-from src.com.jalasoft.test.view.main_view import MainView
-from src.com.jalasoft.test.model.cart_model import CartModel
-from src.com.jalasoft.test.view.product_insert_view import ProductInsertView
+from src.com.jalasoft.ShoppingCart.model.product import Product
+from src.com.jalasoft.ShoppingCart.view.product_insert_view import ProductInsertView
+from src.com.jalasoft.ShoppingCart.view.product_show_view import ProductShowView
 
 
 class CartController:
 
     def __init__(self, mainView, cartModel):
         # mainView.initUI()
-        self.view = mainView
-        self.model = cartModel
-        self.view.initUI(self)
+        self.mainView = mainView
+        self.cartModel = cartModel
+        self.mainView.initUI(self)
+        self.cartList = []
+
+
     def addActionListener(self):
-        self.centralWidget = self.view.centralWidget()
+        self.centralWidget = self.mainView.centralWidget()
         if isinstance(self.centralWidget, ProductInsertView):
             self.centralWidget.getSaveProductButton().clicked.connect(lambda: self.saveProduct())
+        if isinstance(self.centralWidget, ProductShowView):
+            self.centralWidget.getAddTocartButton().clicked.connect(lambda: self.addToCart())
+
 
     def saveProduct(self):
-        self.centralWidget = self.view.centralWidget()
-        name = self.centralWidget.getName()
+        self.centralWidget = self.mainView.centralWidget()
+        product_name = self.centralWidget.getProductName()
+        description = self.centralWidget.getProductDescription()
         price = self.centralWidget.getPrice()
+        stock = self.centralWidget.getProductStock()
+        category_id = self.centralWidget.getProductCategory()
         prod = Product()
-        prod.setProductName(name)
-        prod.setPrice(price)
-        self.model.saveProduct(prod)
+        prod.setProductName(product_name)
+        prod.setProductDescription(description)
+        prod.setProductPrice(price)
+        prod.setProductStock(stock)
+        prod.setProductCategory(category_id)
+        self.cartModel.saveProduct(prod)
+
+    def loadProduct(self):
+        self.centralWidget = self.mainView.centralWidget()
+        listProduct = self.cartModel.getAllProduct()
+
+        listSize = len(listProduct)
+
+
+        self.centralWidget.getTable().setRowCount(listSize)
+        index = 0
+        for prod in listProduct:
+            self.centralWidget.getTable().setItem(index, 0, QTableWidgetItem(str(prod.getProductId())))
+            self.centralWidget.getTable().setItem(index, 1, QTableWidgetItem(prod.getProductName()))
+            self.centralWidget.getTable().setItem(index, 2, QTableWidgetItem(prod.getProductDescription()))
+            self.centralWidget.getTable().setItem(index, 3, QTableWidgetItem(str(prod.getProductPrice())))
+            index = index + 1
+
+    def addToCart(self):
+        indexes = self.centralWidget.getTable().selectionModel().selectedIndexes()
+        id = indexes[0].sibling(indexes[0].row(),indexes[0].column()).data();
+        name = indexes[1].sibling(indexes[1].row(), indexes[1].column()).data();
+        description = indexes[2].sibling(indexes[2].row(), indexes[2].column()).data();
+        price = indexes[3].sibling(indexes[3].row(), indexes[3].column()).data();
+
+        #create product and add to cart
+        pro = Product()
+        pro.setProductId(id)
+        pro.setProductName(name)
+        pro.setProductDescription(description)
+        pro.setProductPrice(price)
+
+        self.cartList.append(pro)
+        self.loadCartTable()
+
+    def loadCartTable(self):
+        listSize = len(self.cartList)
+        self.centralWidget.getCartTable().setRowCount(listSize)
+        index = 0
+        for prod in self.cartList:
+
+            quantity = QLineEdit()
+            self.centralWidget.getCartTable().setItem(index, 0, QTableWidgetItem(str(prod.getProductId())))
+            self.centralWidget.getCartTable().setItem(index, 1, QTableWidgetItem(prod.getProductName()))
+            self.centralWidget.getCartTable().setItem(index, 2, QTableWidgetItem(prod.getProductDescription()))
+            self.centralWidget.getCartTable().setItem(index, 3, QTableWidgetItem(str(prod.getProductPrice())))
+
+            self.centralWidget.getCartTable().setCellWidget(index, 4, quantity)
+            index = index + 1
+

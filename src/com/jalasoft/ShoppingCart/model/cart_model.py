@@ -1,4 +1,6 @@
-from src.com.jalasoft.test.db.product_query import ProductQuery
+from src.com.jalasoft.ShoppingCart.DB.category_query import QueryCategory
+from src.com.jalasoft.ShoppingCart.DB.cart_query import CartQuery
+from src.com.jalasoft.ShoppingCart.DB.product_query import ProductQuery
 
 
 class CartModel:
@@ -10,8 +12,30 @@ class CartModel:
         self.qProduct.insertProduct(product)
 
 
-    def loadProduct(self):
-        self.gProduct = ProductQuery()
-        return self.gProduct.loadAllProduct()
+    def getAllProduct(self):
+        query = ProductQuery()
+        return query.loadAllProduct()
+
+    def getAllCategories(self):
+        query = QueryCategory()
+        return query.select_category()
+
+    def addToCart(self, listProduct):
+        self.qProduct = CartQuery()
+
+        for row in listProduct:
+            print(row)
+            self.qProduct.insertCart(row)
+
+# p = CartModel()
+# list = [("b4", 1, 12, 2, 4), ("b4", 1, 24, 6, 10)]
+#
+# p.addToCart(list)
 
 
+# p = CartModel()
+#
+# list = p.getAllProduct()
+#
+# for i in list:
+#     print(f"name: {i.getProductName()}, price: {i.getProductPrice()}")
