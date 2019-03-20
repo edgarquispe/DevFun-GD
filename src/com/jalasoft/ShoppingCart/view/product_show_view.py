@@ -21,12 +21,17 @@ class ProductShowView(QWidget):
         self.addButton = QPushButton("Add to Cart", self)
 
         self.cartTable = QTableWidget(self)
-        self.cartTable.setColumnCount(5)
-        self.cartTable.setHorizontalHeaderLabels(["ID", "Product Name","Product Details", "Price", "Quantity"])
+        self.cartTable.setColumnCount(6)
+        self.cartTable.setHorizontalHeaderLabels(["ID", "Product Name","Product Details", "Price", "Quantity", "Total Price"])
+
+        self.checkoutbutton = QPushButton("CheckOut", self)
 
         vLayout.addWidget(self.table)
         vLayout.addWidget(self.addButton)
         vLayout.addWidget(self.cartTable)
+        vLayout.addWidget(self.checkoutbutton)
+
+
 
         self.setLayout(vLayout)
 

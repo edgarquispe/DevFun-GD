@@ -1,33 +1,46 @@
 from src.com.jalasoft.ShoppingCart.DB.connectionDB import ConnectionDB
+from src.com.jalasoft.ShoppingCart.model.category import Category
 
 
 class QueryCategory:
     def __init__(self):
-        self.conn = ConnectionDB().getConnection()
+        self.__conn = ConnectionDB().getConnection()
 
+    """Method to insert a category, it will receive a category object"""
+    def insertCategory(self, category):
+        cursor = self.__conn.cursor()
+        insertQuery = "insert into category(category_name) values ('" + category.getCategoryName() + ");"
+        print(insertQuery)
+        cursor.execute(insertQuery)
+        self.__conn.commit()
 
-    """Method to insert Category"""
+    """This method will load all categories and add it to list, this will return a list of objects"""
+    def loadAllCategories(self):
 
-    def insert_category(self, categoryid, name):
-        query = "INSERT INTO categories VALUES (?, ?);"
-        cur = self.conn.cursor()
-        cur.execute(query, (categoryid, name))
-        self.conn.commit()
+        cursor = self.__conn.cursor()
 
-    """Mehtod that will show all categories"""
-    def select_category(self):
-        query = "select categoryId, name from categories;"
-        cur = self.conn.cursor()
-        cur.execute(query)
-        data = cur.fetchall()
-        return data
+        cursor.execute("select category_id, category_name from category;")
+        print(cursor.fetchall())
+        rows = cursor.fetchall()
+
+        categoryList = []
+        for row in rows:
+
+            cate = Category
+            cate.setCategoryId(row[0])
+            cate.setCategoryName(row[1])
+
+            categoryList.append(cate)
+
+        return categoryList
 
 
 
 
 
 # c = QueryCategory()
-# c1 = c.select_category()
+#
+# c1 = c.loadAllCategories()
 #
 # for row in c1:
-#     print(row)
+#     print(row.getCategoryId())

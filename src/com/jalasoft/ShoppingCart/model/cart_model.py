@@ -18,13 +18,13 @@ class CartModel:
 
     def getAllCategories(self):
         query = QueryCategory()
-        return query.select_category()
+        return query.loadAllCategories()
 
     def addToCart(self, listProduct):
         self.qProduct = CartQuery()
 
         for row in listProduct:
-            print(row)
+
             self.qProduct.insertCart(row)
 
 # p = CartModel()
@@ -39,3 +39,7 @@ class CartModel:
 #
 # for i in list:
 #     print(f"name: {i.getProductName()}, price: {i.getProductPrice()}")
+#
+# list1 = p.getAllCategories()
+#
+# print(list1)

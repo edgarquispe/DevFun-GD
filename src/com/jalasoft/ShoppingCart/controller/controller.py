@@ -73,4 +73,5 @@ class Controller:
             self.centralWidget.getCartTable().setItem(index, 3, QTableWidgetItem(str(prod.getProductPrice())))
 
             self.centralWidget.getCartTable().setCellWidget(index, 4, quantity)
+
             index = index + 1
