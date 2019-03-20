@@ -16,16 +16,13 @@ class QueryCategory:
 
     """This method will load all categories and add it to list, this will return a list of objects"""
     def loadAllCategories(self):
-
         cursor = self.__conn.cursor()
-
         cursor.execute("select category_id, category_name from category;")
-        print(cursor.fetchall())
         rows = cursor.fetchall()
-
+        print(rows)
         categoryList = []
         for row in rows:
-
+            print(row)
             cate = Category
             cate.setCategoryId(row[0])
             cate.setCategoryName(row[1])
@@ -38,9 +35,9 @@ class QueryCategory:
 
 
 
-# c = QueryCategory()
+#c = QueryCategory()
 #
-# c1 = c.loadAllCategories()
+#c1 = c.loadAllCategories()
 #
-# for row in c1:
-#     print(row.getCategoryId())
+#for row in c1:
+#    print(row.getCategoryId())

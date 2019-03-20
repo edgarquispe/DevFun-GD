@@ -12,7 +12,9 @@ class MainView(QMainWindow):
 
     def initUI(self, controller):
         self.__controller = controller
-        self.setWindowTitle("Test")
+        self.setWindowTitle(".::: Shopping Cart :::.")
+        self.resize(1000, 600)
+
         self.initComponent()
         self.show()
 
