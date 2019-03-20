@@ -1,3 +1,5 @@
+from PyQt5.QtCore import QRegExp
+from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QWidget, QFormLayout, QLineEdit, QLabel, QVBoxLayout, QGroupBox, QPushButton
 
 
@@ -12,10 +14,25 @@ class ProductInsertView(QWidget):
         group = QGroupBox()
         form = QFormLayout()
         self.name = QLineEdit()
+        regex_name = QRegExp("[a-z-A-Z_]+")
+        validator_name = QRegExpValidator(regex_name)
+        self.name.setValidator(validator_name)
         self.description = QLineEdit()
+        regex_description = QRegExp("[a-z-A-Z_]+")
+        validator_name = QRegExpValidator(regex_description)
+        self.description.setValidator(validator_name)
         self.price = QLineEdit()
+        regex_price = QRegExp("[0-9_]+")
+        validator_name = QRegExpValidator(regex_price)
+        self.price.setValidator(validator_name)
         self.stock = QLineEdit()
+        regex_stock = QRegExp("[0-9_]+")
+        validator_name = QRegExpValidator(regex_stock)
+        self.stock.setValidator(validator_name)
         self.category = QLineEdit()
+        regex_category = QRegExp("[a-z-A-Z_]+")
+        validator_name = QRegExpValidator(regex_category)
+        self.category.setValidator(validator_name)
 
         form.addRow(QLabel("Product Name:"), self.name)
         form.addRow(QLabel("Product Description:"), self.description)

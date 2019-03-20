@@ -19,7 +19,6 @@ class ProductShowView(QWidget):
         self.table.setSelectionMode(QAbstractItemView.SingleSelection)
 
         self.addButton = QPushButton("Add to Cart", self)
-        self.addButton.setFixedWidth(140)
 
         self.cartTable = QTableWidget(self)
         self.cartTable.setColumnCount(5)
