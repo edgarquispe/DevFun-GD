@@ -37,7 +37,7 @@ class ProductQuery:
     """This method will load all product filtered by category and add it to list, this will return a list of objects"""
     def loadAllProductByCategory(self, category_id):
         cursor = self.__conn.cursor()
-        cursor.execute("select product_id, product_name, description, price, from product where category_id = '" + str(category_id) + "';")
+        cursor.execute("select product_id, product_name, description, price from product where category_id = '" + str(category_id) + "';")
         rows = cursor.fetchall()
         productList = []
         for row in rows:
@@ -47,8 +47,8 @@ class ProductQuery:
             prod.setProductName(row[1])
             prod.setProductDescription(row[2])
             prod.setProductPrice(row[3])
-            prod.setProductStock(row[4])
-            prod.setProductCategory(row[5])
+            # prod.setProductStock(row[4])
+            # prod.setProductCategory(row[5])
 
             productList.append(prod)
 
@@ -70,9 +70,15 @@ class ProductQuery:
         self.conn.commit()
 
 
+
 # p = ProductQuery()
 #
-# list = p.loadAllProduct()
+# # list = p.loadAllProduct()
+# #
+# # for i in list:
+# #     print(i.getProductName())
 #
-# for i in list:
-#     print(i.getProductDescription())
+#
+# listA = p.loadAllProductByCategory(1)
+# for a in listA:
+#     print(a.getProductDescription())
