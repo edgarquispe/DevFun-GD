@@ -50,6 +50,7 @@ class MainView(QMainWindow):
         self.setCentralWidget(ProductShowView())
         self.__controller.loadProduct()
         self.__controller.addActionListener()
+        self.__controller.clean_cart_table()
 
     def loadProductInsertCategoryView(self):
         self.setCentralWidget(CategoryInsertView())

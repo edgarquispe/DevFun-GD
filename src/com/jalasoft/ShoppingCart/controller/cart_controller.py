@@ -32,11 +32,13 @@ class CartController:
             self.centralWidget.getSaveCategoryButton().clicked.connect(lambda: self.save_Category_in_db())
             self.centralWidget.getSaveCategoryButton().clicked.connect(lambda: self.clean_the_form_fields())
 
+
     def clean_the_form_fields(self):
         self.centralWidget = self.mainView.centralWidget()
         self.centralWidget.clear_fields()
 
     def saveProduct(self):
+        self.clean_cart_table()
         self.centralWidget = self.mainView.centralWidget()
         product_name = self.centralWidget.getProductName()
         description = self.centralWidget.getProductDescription()
@@ -133,13 +135,14 @@ class CartController:
         self.centralWidget.getCartTable().setItem(index-1, 5, QTableWidgetItem(str(total)))
 
 
-    def saludo(self):
-        print("saludo.....")
+    def clean_cart_table(self):
+        self.cartList = []
+        self._index = 0
+        self.centralWidget.getCartTable().setRowCount(0)
 
 
     def addProducts_to_Cart(self):
         self.cartModel.addToCart(self.cartList)
         print("insert to cart table")
         self.centralWidget.display_message_success()
-        self.cartList = []
-        self._index = 0
+        self.clean_cart_table()
