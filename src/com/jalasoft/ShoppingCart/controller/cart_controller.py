@@ -131,7 +131,7 @@ class CartController:
         self._index = self._index + 1
 
     def getValueQuantity(self, index):
-        billing_id = 1
+        billing_id = "Test1"
         user_id = 1
         product_id = self.centralWidget.getCartTable().item(index-1, 0).text()
         quantity_value = self.centralWidget.getCartTable().cellWidget(index-1, 4).text()

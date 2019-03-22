@@ -21,9 +21,9 @@ class CartQuery:
         print(prod_quantity)
         print(prod_total)
 
-        #insertQuery = "insert into purchase(billing_id, user_id, product_id, quantity, price) values ('" + productPurchase[0] + "','" + str(productPurchase[1])+ "', " + str(productPurchase[2])+ ", " + str(productPurchase[3])+ ", " + str(productPurchase[4])+ ");"
-        #cursor.execute(insertQuery)
-        #self.__conn.commit()
+        insertQuery = "insert into purchase(billing_id, user_id, product_id, quantity, price) values ('" + str(billing_id) + "','" + str(user_id)+ "', " + str(prod_id)+ ", " + str(prod_quantity)+ ", " + str(prod_total)+ ");"
+        cursor.execute(insertQuery)
+        self.__conn.commit()
 
 
     def loadAllCart(self):
