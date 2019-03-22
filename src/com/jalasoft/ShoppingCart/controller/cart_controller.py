@@ -1,7 +1,9 @@
 from PyQt5.QtWidgets import QTableWidgetItem, QLineEdit, QMessageBox
 
 from src.com.jalasoft.ShoppingCart.controller.utilities.utilities import Util
+from src.com.jalasoft.ShoppingCart.model.category import Category
 from src.com.jalasoft.ShoppingCart.model.product import Product
+from src.com.jalasoft.ShoppingCart.view.category_insert_view import CategoryInsertView
 from src.com.jalasoft.ShoppingCart.view.product_insert_view import ProductInsertView
 from src.com.jalasoft.ShoppingCart.view.product_show_view import ProductShowView
 
@@ -26,7 +28,9 @@ class CartController:
             self.centralWidget.getAddTocartButton().clicked.connect(lambda: self.addToCart())
         if isinstance(self.centralWidget, ProductShowView):
             self.centralWidget.getSaveToPurchaceButton().clicked.connect(lambda: self.addProducts_to_Cart())
-        ####if isinstance(self.centralWidget.getCartTable().cellWidget(0, 4).text()):
+        if isinstance(self.centralWidget, CategoryInsertView):
+            self.centralWidget.getSaveCategoryButton().clicked.connect(lambda: self.save_Category_in_db())
+            self.centralWidget.getSaveCategoryButton().clicked.connect(lambda: self.clean_the_form_fields())
 
     def clean_the_form_fields(self):
         self.centralWidget = self.mainView.centralWidget()
@@ -49,6 +53,16 @@ class CartController:
         self.cartModel.saveProduct(prod)
 
         self.centralWidget.display_message_success_after_save_product()
+
+    def save_Category_in_db(self):
+        self.centralWidget = self.mainView.centralWidget()
+        category_name = self.centralWidget.getCategoryName()
+
+        category = Category()
+        category.setCategoryName(category_name)
+        self.cartModel.save_Category(category)
+        self.centralWidget.display_message_success_after_save_category()
+
 
     def loadProduct(self):
         self.centralWidget = self.mainView.centralWidget()

@@ -11,6 +11,9 @@ class CartModel:
         self.qProduct = ProductQuery()
         self.qProduct.insertProduct(product)
 
+    def save_Category(self, category):
+        self.qCategory = QueryCategory()
+        self.qCategory.insertCategory(category)
 
     def getAllProduct(self):
         query = ProductQuery()
