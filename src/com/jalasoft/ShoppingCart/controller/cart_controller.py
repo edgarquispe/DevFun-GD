@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QTableWidgetItem, QLineEdit
+from PyQt5.QtWidgets import QTableWidgetItem, QLineEdit, QMessageBox
 
 from src.com.jalasoft.ShoppingCart.controller.utilities.utilities import Util
 from src.com.jalasoft.ShoppingCart.model.product import Product
@@ -108,11 +108,15 @@ class CartController:
         self.centralWidget.getCartTable().setItem(self._index, 2, QTableWidgetItem(prod.getProductDescription()))
         self.centralWidget.getCartTable().setItem(self._index, 3, QTableWidgetItem(str(prod.getProductPrice())))
         self.centralWidget.getCartTable().setCellWidget(self._index, 4, self.quantity)
+        self.centralWidget.getCartTable().setItem(self._index, 5, QTableWidgetItem(str(0)))
 
         self._index = self._index + 1
 
     def getValueQuantity(self, index):
-        print(self.centralWidget.getCartTable().cellWidget(index-1, 4).text())
+        quantity_value = self.centralWidget.getCartTable().cellWidget(index-1, 4).text()
+        price_value = self.centralWidget.getCartTable().item(index-1, 3).text()
+        total = int(float(price_value)) * int(quantity_value)
+        self.centralWidget.getCartTable().setItem(index-1, 5, QTableWidgetItem(str(total)))
 
 
     def saludo(self):
@@ -121,6 +125,7 @@ class CartController:
 
     def addProducts_to_Cart(self):
         self.cartModel.addToCart(self.cartList)
-        #for item in self.insert_cart:
-        #    print(item)
         print("insert to cart table")
+        self.centralWidget.display_message_success()
+        self.cartList = []
+        self._index = 0

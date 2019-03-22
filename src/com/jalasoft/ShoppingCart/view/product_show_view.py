@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QWidget, QFormLayout, QLineEdit, QLabel, QVBoxLayout, QGroupBox, QPushButton, QComboBox, QTableWidget, QTableWidgetItem, QAbstractItemView
+from PyQt5.QtWidgets import QWidget, QFormLayout, QLineEdit, QLabel, QVBoxLayout, QGroupBox, QPushButton, QComboBox, \
+    QTableWidget, QTableWidgetItem, QAbstractItemView, QMessageBox
 
 
 class ProductShowView(QWidget):
@@ -22,7 +23,7 @@ class ProductShowView(QWidget):
 
         self.cartTable = QTableWidget(self)
         self.cartTable.setColumnCount(6)
-        self.cartTable.setHorizontalHeaderLabels(["ID", "Product Name","Product Details", "Price", "Quantity", "Total Price"])
+        self.cartTable.setHorizontalHeaderLabels(["ID", "Product Name", "Product Details", "Price", "Quantity", "Total Price"])
 
         self.checkoutbutton = QPushButton("CheckOut", self)
 
@@ -46,4 +47,7 @@ class ProductShowView(QWidget):
 
     def getSaveToPurchaceButton(self):
         return self.checkoutbutton
+
+    def display_message_success(self):
+        QMessageBox.information(self, 'Success', 'New Product Registered Successfully in Purchace...')
 
