@@ -8,11 +8,12 @@ class CartQuery:
 
     def insertCart(self, productPurchase):
         cursor = self.__conn.cursor()
-        print(productPurchase[2])
-        insertQuery = "insert into purchase(billing_id, user_id, product_id, quantity, price) values ('" + productPurchase[0] + "','" + str(productPurchase[1])+ "', " + str(productPurchase[2])+ ", " + str(productPurchase[3])+ ", " + str(productPurchase[4])+ ");"
+        print("DB insert ....")
+        product_name = productPurchase.getProductName()
 
-        cursor.execute(insertQuery)
-        self.__conn.commit()
+        #insertQuery = "insert into purchase(billing_id, user_id, product_id, quantity, price) values ('" + productPurchase[0] + "','" + str(productPurchase[1])+ "', " + str(productPurchase[2])+ ", " + str(productPurchase[3])+ ", " + str(productPurchase[4])+ ");"
+        #cursor.execute(insertQuery)
+        #self.__conn.commit()
 
 
     def loadAllCart(self):

@@ -23,6 +23,8 @@ class CartController:
             self.centralWidget.getSaveProductButton().clicked.connect(lambda: self.clean_the_form_fields())
         if isinstance(self.centralWidget, ProductShowView):
             self.centralWidget.getAddTocartButton().clicked.connect(lambda: self.addToCart())
+        if isinstance(self.centralWidget, ProductShowView):
+            self.centralWidget.getSaveToPurchaceButton().clicked.connect(lambda: self.addProducts_to_Cart())
 
     def clean_the_form_fields(self):
         self.centralWidget = self.mainView.centralWidget()
@@ -64,19 +66,28 @@ class CartController:
     def addToCart(self):
         indexes = self.centralWidget.getTable().selectionModel().selectedIndexes()
         id = indexes[0].sibling(indexes[0].row(), indexes[0].column()).data();
-        name = indexes[1].sibling(indexes[1].row(), indexes[1].column()).data();
-        description = indexes[2].sibling(indexes[2].row(), indexes[2].column()).data();
-        price = indexes[3].sibling(indexes[3].row(), indexes[3].column()).data();
 
-        # create product and add to cart
-        pro = Product()
-        pro.setProductId(id)
-        pro.setProductName(name)
-        pro.setProductDescription(description)
-        pro.setProductPrice(price)
+        if not self.__isProductInList(id):
+            name = indexes[1].sibling(indexes[1].row(), indexes[1].column()).data();
+            description = indexes[2].sibling(indexes[2].row(), indexes[2].column()).data();
+            price = indexes[3].sibling(indexes[3].row(), indexes[3].column()).data();
 
-        self.cartList.append(pro)
-        self.loadCartTable()
+            # create product and add to cart
+            pro = Product()
+            pro.setProductId(id)
+            pro.setProductName(name)
+            pro.setProductDescription(description)
+            pro.setProductPrice(price)
+
+            self.cartList.append(pro)
+            self.loadCartTable()
+
+    def __isProductInList(self, id):
+        for prod in self.cartList:
+            if id == prod.getProductId():
+                return True
+        return False
+
 
     def get_cart_list(self):
         new_list = list(set(self.cartList))
@@ -100,3 +111,10 @@ class CartController:
 
     def saludo(self):
         print("saludo.....")
+
+
+    def addProducts_to_Cart(self):
+        self.cartModel.addToCart(self.cartList)
+        #for item in self.insert_cart:
+        #    print(item)
+        print("insert to cart table")

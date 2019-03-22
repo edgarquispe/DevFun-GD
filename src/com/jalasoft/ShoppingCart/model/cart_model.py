@@ -22,9 +22,7 @@ class CartModel:
 
     def addToCart(self, listProduct):
         self.qProduct = CartQuery()
-
         for row in listProduct:
-
             self.qProduct.insertCart(row)
 
 # p = CartModel()

@@ -44,3 +44,6 @@ class ProductShowView(QWidget):
     def getAddTocartButton(self):
         return self.addButton
 
+    def getSaveToPurchaceButton(self):
+        return self.checkoutbutton
+

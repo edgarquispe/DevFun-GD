@@ -9,7 +9,7 @@ class Util:
         self._message = ""
 
     def validate_String(self):
-        self._validator = QRegExpValidator(QRegExp("[a-z-A-Z_]+"))
+        self._validator = QRegExpValidator(QRegExp("[a-zA-Z\-'\s]+"))
         return self._validator
 
     def validate_Number(self):
