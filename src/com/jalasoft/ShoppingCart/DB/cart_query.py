@@ -9,7 +9,17 @@ class CartQuery:
     def insertCart(self, productPurchase):
         cursor = self.__conn.cursor()
         print("DB insert ....")
-        product_name = productPurchase.getProductName()
+        billing_id = productPurchase.get_billing_id()
+        user_id = productPurchase.get_user_id()
+        prod_id = productPurchase.get_product_id()
+        prod_quantity = productPurchase.get_quantity()
+        prod_total = productPurchase.get_price()
+
+        print(billing_id)
+        print(user_id)
+        print(prod_id)
+        print(prod_quantity)
+        print(prod_total)
 
         #insertQuery = "insert into purchase(billing_id, user_id, product_id, quantity, price) values ('" + productPurchase[0] + "','" + str(productPurchase[1])+ "', " + str(productPurchase[2])+ ", " + str(productPurchase[3])+ ", " + str(productPurchase[4])+ ");"
         #cursor.execute(insertQuery)

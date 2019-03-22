@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QTableWidgetItem, QLineEdit, QMessageBox
 from src.com.jalasoft.ShoppingCart.controller.utilities.utilities import Util
 from src.com.jalasoft.ShoppingCart.model.category import Category
 from src.com.jalasoft.ShoppingCart.model.product import Product
+from src.com.jalasoft.ShoppingCart.model.purchase import Purchase
 from src.com.jalasoft.ShoppingCart.view.category_insert_view import CategoryInsertView
 from src.com.jalasoft.ShoppingCart.view.product_insert_view import ProductInsertView
 from src.com.jalasoft.ShoppingCart.view.product_show_view import ProductShowView
@@ -16,6 +17,7 @@ class CartController:
         self.cartModel = cartModel
         self.mainView.initUI(self)
         self.cartList = []
+        self.cart_list_to_purchase = []
         self._validator = Util()
         self._index = 0
 
@@ -129,10 +131,17 @@ class CartController:
         self._index = self._index + 1
 
     def getValueQuantity(self, index):
+        billing_id = 1
+        user_id = 1
+        product_id = self.centralWidget.getCartTable().item(index-1, 0).text()
         quantity_value = self.centralWidget.getCartTable().cellWidget(index-1, 4).text()
         price_value = self.centralWidget.getCartTable().item(index-1, 3).text()
         total = int(float(price_value)) * int(quantity_value)
         self.centralWidget.getCartTable().setItem(index-1, 5, QTableWidgetItem(str(total)))
+
+        purchase = Purchase(billing_id, user_id, product_id, quantity_value, total)
+        self.cart_list_to_purchase.append(purchase)
+
 
 
     def clean_cart_table(self):
@@ -142,7 +151,7 @@ class CartController:
 
 
     def addProducts_to_Cart(self):
-        self.cartModel.addToCart(self.cartList)
+        self.cartModel.addToCart(self.cart_list_to_purchase)
         print("insert to cart table")
         self.centralWidget.display_message_success()
         self.clean_cart_table()
