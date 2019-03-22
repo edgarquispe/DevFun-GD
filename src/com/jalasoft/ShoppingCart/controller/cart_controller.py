@@ -15,6 +15,7 @@ class CartController:
         self.mainView.initUI(self)
         self.cartList = []
         self._validator = Util()
+        self._index = 0
 
     def addActionListener(self):
         self.centralWidget = self.mainView.centralWidget()
@@ -25,6 +26,7 @@ class CartController:
             self.centralWidget.getAddTocartButton().clicked.connect(lambda: self.addToCart())
         if isinstance(self.centralWidget, ProductShowView):
             self.centralWidget.getSaveToPurchaceButton().clicked.connect(lambda: self.addProducts_to_Cart())
+        ####if isinstance(self.centralWidget.getCartTable().cellWidget(0, 4).text()):
 
     def clean_the_form_fields(self):
         self.centralWidget = self.mainView.centralWidget()
@@ -95,18 +97,22 @@ class CartController:
         return new_list
 
     def loadCartTable(self):
-        listSize = len(self.get_cart_list())
+        listSize = len(self.cartList)
         self.centralWidget.getCartTable().setRowCount(listSize)
-        index = 0
-        for prod in self.get_cart_list():
-            self.quantity = QLineEdit()
-            self.quantity.setValidator(self._validator.validate_Number())
-            self.centralWidget.getCartTable().setItem(index, 0, QTableWidgetItem(str(prod.getProductId())))
-            self.centralWidget.getCartTable().setItem(index, 1, QTableWidgetItem(prod.getProductName()))
-            self.centralWidget.getCartTable().setItem(index, 2, QTableWidgetItem(prod.getProductDescription()))
-            self.centralWidget.getCartTable().setItem(index, 3, QTableWidgetItem(str(prod.getProductPrice())))
-            self.centralWidget.getCartTable().setCellWidget(index, 4, self.quantity)
-            index = index + 1
+        prod = self.cartList[self._index]
+        self.quantity = QLineEdit()
+        self.quantity.setValidator(self._validator.validate_Number())
+        self.quantity.editingFinished.connect(lambda: self.getValueQuantity(self._index))
+        self.centralWidget.getCartTable().setItem(self._index, 0, QTableWidgetItem(str(prod.getProductId())))
+        self.centralWidget.getCartTable().setItem(self._index, 1, QTableWidgetItem(prod.getProductName()))
+        self.centralWidget.getCartTable().setItem(self._index, 2, QTableWidgetItem(prod.getProductDescription()))
+        self.centralWidget.getCartTable().setItem(self._index, 3, QTableWidgetItem(str(prod.getProductPrice())))
+        self.centralWidget.getCartTable().setCellWidget(self._index, 4, self.quantity)
+
+        self._index = self._index + 1
+
+    def getValueQuantity(self, index):
+        print(self.centralWidget.getCartTable().cellWidget(index-1, 4).text())
 
 
     def saludo(self):
