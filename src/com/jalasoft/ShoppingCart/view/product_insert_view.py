@@ -31,7 +31,7 @@ class ProductInsertView(QWidget):
 
         self.product_name.setValidator(self._validator.validate_String())
         self.product_description.setValidator(self._validator.validate_String())
-        self.product_price.setValidator(self._validator.validate_Number())
+        self.product_price.setValidator(self._validator.validate_Float())
         self.product_stock.setValidator(self._validator.validate_Number())
 
         product_form.addRow(QLabel("Product Name:"), self.product_name)
