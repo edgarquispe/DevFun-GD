@@ -2,7 +2,7 @@
 class Purchase:
 
     def __init__(self, billing_id, user_id, product_id, quantity, product_price):
-        self._billing_id = billing_id
+        self._billing_id = str(billing_id)
         self._user_id = user_id
         self._product_id = product_id
         self._quantity = quantity

@@ -3,6 +3,7 @@ from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QWidget, QFormLayout, QLineEdit, QLabel, QVBoxLayout, QGroupBox, QPushButton, QComboBox, \
     QMessageBox
 
+from src.com.jalasoft.ShoppingCart.DB.category_query import QueryCategory
 from src.com.jalasoft.ShoppingCart.controller.utilities.utilities import Util
 
 
@@ -24,9 +25,15 @@ class ProductInsertView(QWidget):
         self.product_price = QLineEdit()
         self.product_stock = QLineEdit()
         self.product_category = QComboBox()
-        self.product_category.addItem("Fruta", 1)
-        self.product_category.addItem("Computer", 2)
-        self.product_category.addItem("Game", 3)
+
+        c = QueryCategory()
+        c1 = c.loadAllCategories()
+        for row in c1:
+            self.product_category.addItem(row.getCategoryName(), str(row.getCategoryId()))
+
+        # self.product_category.addItem("Computer", 2)
+        # self.product_category.addItem("Game", 3)
+
         self.btn_save_product = QPushButton("Save Product", self)
 
         self.product_name.setValidator(self._validator.validate_String())
@@ -70,6 +77,7 @@ class ProductInsertView(QWidget):
         return self.product_stock.text()
 
     def getProductCategory(self):
+
         category_id = self.product_category.itemData(self.product_category.currentIndex())
         return category_id
 

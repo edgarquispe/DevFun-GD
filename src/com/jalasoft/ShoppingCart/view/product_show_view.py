@@ -14,8 +14,8 @@ class ProductShowView(QWidget):
         vLayout = QVBoxLayout()
 
         self.table = QTableWidget(self)
-        self.table.setColumnCount(4)
-        self.table.setHorizontalHeaderLabels(["ID", "Product Name", "Product Details", "Price"])
+        self.table.setColumnCount(5)
+        self.table.setHorizontalHeaderLabels(["ID", "Product Name", "Product Details", "Price", "In Stock"])
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.table.setSelectionMode(QAbstractItemView.SingleSelection)
 

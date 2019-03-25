@@ -1,3 +1,5 @@
+import random
+
 from PyQt5.QtWidgets import QTableWidgetItem, QLineEdit, QMessageBox
 
 from src.com.jalasoft.ShoppingCart.controller.utilities.utilities import Util
@@ -40,13 +42,15 @@ class CartController:
         self.centralWidget.clear_fields()
 
     def saveProduct(self):
-        self.clean_cart_table()
+
+        # self.clean_cart_table()
         self.centralWidget = self.mainView.centralWidget()
         product_name = self.centralWidget.getProductName()
         description = self.centralWidget.getProductDescription()
         price = self.centralWidget.getPrice()
         stock = self.centralWidget.getProductStock()
         category_id = self.centralWidget.getProductCategory()
+
 
         prod = Product()
         prod.setProductName(product_name)
@@ -81,6 +85,7 @@ class CartController:
             self.centralWidget.getTable().setItem(index, 1, QTableWidgetItem(prod.getProductName()))
             self.centralWidget.getTable().setItem(index, 2, QTableWidgetItem(prod.getProductDescription()))
             self.centralWidget.getTable().setItem(index, 3, QTableWidgetItem(str(prod.getProductPrice())))
+            self.centralWidget.getTable().setItem(index, 4, QTableWidgetItem(str(prod.getProductStock())))
             index = index + 1
 
     def addToCart(self):
@@ -131,7 +136,10 @@ class CartController:
         self._index = self._index + 1
 
     def getValueQuantity(self, index):
-        billing_id = "Test1"
+        bill = "BILL"+random.choice("1234567890")
+        print(bill)
+        billing_id = bill
+        # billing_id = "Test1"
         user_id = 1
         product_id = self.centralWidget.getCartTable().item(index-1, 0).text()
         quantity_value = self.centralWidget.getCartTable().cellWidget(index-1, 4).text()
@@ -152,6 +160,7 @@ class CartController:
 
     def addProducts_to_Cart(self):
         self.cartModel.addToCart(self.cart_list_to_purchase)
-        print("insert to cart table")
+        # print("insert to cart table")
         self.centralWidget.display_message_success()
         self.clean_cart_table()
+

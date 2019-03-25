@@ -1,4 +1,5 @@
 from src.com.jalasoft.ShoppingCart.DB.connectionDB import ConnectionDB
+from src.com.jalasoft.ShoppingCart.DB.product_query import ProductQuery
 from src.com.jalasoft.ShoppingCart.model.cart import Cart
 
 
@@ -8,21 +9,34 @@ class CartQuery:
 
     def insertCart(self, productPurchase):
         cursor = self.__conn.cursor()
-        print("DB insert ....")
+        # print("DB insert ....")
         billing_id = productPurchase.get_billing_id()
         user_id = productPurchase.get_user_id()
         prod_id = productPurchase.get_product_id()
         prod_quantity = productPurchase.get_quantity()
         prod_total = productPurchase.get_price()
 
-        print(billing_id)
-        print(user_id)
-        print(prod_id)
-        print(prod_quantity)
-        print(prod_total)
+        # print(billing_id)
+        # print(user_id)
+        # print(prod_id)
+        # print(prod_quantity)
+        # print(prod_total)
 
         insertQuery = "insert into purchase(billing_id, user_id, product_id, quantity, price) values ('" + str(billing_id) + "','" + str(user_id)+ "', " + str(prod_id)+ ", " + str(prod_quantity)+ ", " + str(prod_total)+ ");"
         cursor.execute(insertQuery)
+
+        p = ProductQuery()
+        stockprod = p.product_Id(prod_id)
+        newstock = stockprod - int(prod_quantity)
+
+
+        updateQuantity = "update product set stock = '" + str(newstock) + "' where product_id = '" + str(prod_id) + "';"
+        cursor.execute(updateQuantity)
+
+
+
+
+
         self.__conn.commit()
 
 
