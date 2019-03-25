@@ -1,6 +1,6 @@
 import random
 
-from PyQt5.QtWidgets import QTableWidgetItem, QLineEdit, QMessageBox, QPushButton
+from PyQt5.QtWidgets import QTableWidgetItem, QLineEdit, QMessageBox, QPushButton, QDialog, QLabel, QVBoxLayout
 
 from src.com.jalasoft.ShoppingCart.controller.utilities.utilities import Util
 from src.com.jalasoft.ShoppingCart.model.category import Category
@@ -89,8 +89,32 @@ class CartController:
             self.btn_show_purchase_detail = QPushButton("View Detail Purchase")
             self.centralWidget.get_purchase_Table().setItem(index, 0, QTableWidgetItem(str(purchase_item.getBillId())))
             self.centralWidget.get_purchase_Table().setCellWidget(index, 1, self.btn_show_purchase_detail)
-
+            self.btn_show_purchase_detail.clicked.connect(lambda: self.show_detail_purchase_by_billing(index))
             index = index + 1
+            print(index)
+
+
+    def show_detail_purchase_by_billing(self, purchase_index):
+        print("Show detail purchase by billing....!!")
+        self.ui_report_purchase = QDialog()
+        self.ui_report_purchase.setWindowTitle(".::: Show Detail Purchase :::.")
+        self.ui_report_purchase.resize(500, 300)
+        self.vLayout_to_report = QVBoxLayout()
+        lb_title = QLabel("_______________Shopping Cart____________________")
+        billing_id = self.centralWidget.get_purchase_Table().item(purchase_index-1, 0).text()
+        print(purchase_index)
+        print(billing_id)
+        ##lb_billing_id = QLabel(billing_id)
+        btn_report = QPushButton("Print Report Purchase")
+
+        self.vLayout_to_report.addWidget(lb_title)
+        ##self.vLayout_to_report.addWidget(lb_billing_id)
+        self.vLayout_to_report.addWidget(btn_report)
+
+        self.ui_report_purchase.setLayout(self.vLayout_to_report)
+
+        self.ui_report_purchase.show()
+
 
     def loadProduct(self):
         self.centralWidget = self.mainView.centralWidget()
