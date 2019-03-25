@@ -12,6 +12,15 @@ class ProductShowView(QWidget):
 
     def initComponent(self):
         vLayout = QVBoxLayout()
+        self.category_form = QFormLayout()
+        self.category_group = QGroupBox()
+        self.chbx_category = QComboBox()
+        self.chbx_category.addItem("Fruta", 1)
+        self.chbx_category.addItem("Phone", 2)
+        self.category_group.setTitle("Select Category")
+
+        self.category_form.addRow(QLabel("Select Category Product:"), self.chbx_category)
+        self.category_group.setLayout(self.category_form)
 
         self.table = QTableWidget(self)
         self.table.setColumnCount(5)
@@ -27,6 +36,7 @@ class ProductShowView(QWidget):
 
         self.checkoutbutton = QPushButton("CheckOut", self)
 
+        vLayout.addWidget(self.category_group)
         vLayout.addWidget(self.table)
         vLayout.addWidget(self.addButton)
         vLayout.addWidget(self.cartTable)
@@ -50,4 +60,7 @@ class ProductShowView(QWidget):
 
     def display_message_success(self):
         QMessageBox.information(self, 'Success', 'New Product Registered Successfully in Purchace...')
+
+    def get_select_current_category_products(self):
+        pass
 

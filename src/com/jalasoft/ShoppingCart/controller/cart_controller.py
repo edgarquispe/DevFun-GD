@@ -22,6 +22,10 @@ class CartController:
         self.cart_list_to_purchase = []
         self._validator = Util()
         self._index = 0
+        self._billing_id_sale = self.generate_billing_id()
+
+    def generate_billing_id(self):
+        return "BILL"+random.choice("1234567890")
 
     def addActionListener(self):
         self.centralWidget = self.mainView.centralWidget()
@@ -124,8 +128,9 @@ class CartController:
         self.centralWidget.getCartTable().setRowCount(listSize)
         prod = self.cartList[self._index]
         self.quantity = QLineEdit()
+        self.quantity.setText("1")
         self.quantity.setValidator(self._validator.validate_Number())
-        self.quantity.editingFinished.connect(lambda: self.getValueQuantity(self._index))
+        self.quantity.editingFinished.connect(lambda: self.getValueQuantity(prod))
         self.centralWidget.getCartTable().setItem(self._index, 0, QTableWidgetItem(str(prod.getProductId())))
         self.centralWidget.getCartTable().setItem(self._index, 1, QTableWidgetItem(prod.getProductName()))
         self.centralWidget.getCartTable().setItem(self._index, 2, QTableWidgetItem(prod.getProductDescription()))
@@ -135,17 +140,23 @@ class CartController:
 
         self._index = self._index + 1
 
-    def getValueQuantity(self, index):
-        bill = "BILL"+random.choice("1234567890")
+    def getValueQuantity(self, product):
+        bill = self._billing_id_sale
         print(bill)
         billing_id = bill
-        # billing_id = "Test1"
+
+        for i in range(self._index):
+            pro_id = self.centralWidget.getCartTable().item(i, 0).text()
+            if pro_id == product.getProductId():
+                self.index_cart = i
+                break
+
         user_id = 1
-        product_id = self.centralWidget.getCartTable().item(index-1, 0).text()
-        quantity_value = self.centralWidget.getCartTable().cellWidget(index-1, 4).text()
-        price_value = self.centralWidget.getCartTable().item(index-1, 3).text()
+        product_id = self.centralWidget.getCartTable().item(self.index_cart, 0).text()
+        quantity_value = self.centralWidget.getCartTable().cellWidget(self.index_cart, 4).text()
+        price_value = self.centralWidget.getCartTable().item(self.index_cart, 3).text()
         total = int(float(price_value)) * int(quantity_value)
-        self.centralWidget.getCartTable().setItem(index-1, 5, QTableWidgetItem(str(total)))
+        self.centralWidget.getCartTable().setItem(self.index_cart, 5, QTableWidgetItem(str(total)))
 
         purchase = Purchase(billing_id, user_id, product_id, quantity_value, total)
         self.cart_list_to_purchase.append(purchase)
@@ -154,6 +165,7 @@ class CartController:
 
     def clean_cart_table(self):
         self.cartList = []
+        self.cart_list_to_purchase = []
         self._index = 0
         self.centralWidget.getCartTable().setRowCount(0)
 
@@ -163,4 +175,4 @@ class CartController:
         # print("insert to cart table")
         self.centralWidget.display_message_success()
         self.clean_cart_table()
-
+        self.loadProduct()
