@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import QWidget, QFormLayout, QLineEdit, QLabel, QVBoxLayout, QGroupBox, QPushButton, QComboBox, \
     QTableWidget, QTableWidgetItem, QAbstractItemView, QMessageBox
 
+from src.com.jalasoft.ShoppingCart.DB.category_query import QueryCategory
+
 
 class ProductShowView(QWidget):
     def __init__(self):
@@ -15,8 +17,12 @@ class ProductShowView(QWidget):
         self.category_form = QFormLayout()
         self.category_group = QGroupBox()
         self.chbx_category = QComboBox()
-        self.chbx_category.addItem("Fruta", 1)
-        self.chbx_category.addItem("Phone", 2)
+        self.chbx_category.addItem("All", 0)
+        query_category = QueryCategory()
+        result_category = query_category.loadAllCategories()
+        for row in result_category:
+            self.chbx_category.addItem(row.getCategoryName(), str(row.getCategoryId()))
+
         self.category_group.setTitle("Select Category")
 
         self.category_form.addRow(QLabel("Select Category Product:"), self.chbx_category)
@@ -42,8 +48,6 @@ class ProductShowView(QWidget):
         vLayout.addWidget(self.cartTable)
         vLayout.addWidget(self.checkoutbutton)
 
-
-
         self.setLayout(vLayout)
 
     def getTable(self):
@@ -61,6 +65,10 @@ class ProductShowView(QWidget):
     def display_message_success(self):
         QMessageBox.information(self, 'Success', 'New Product Registered Successfully in Purchace...')
 
+    def getCategory_ComboBox(self):
+        return self.chbx_category
+
     def get_select_current_category_products(self):
-        pass
+        category_id = self.chbx_category.itemData(self.chbx_category.currentIndex())
+        return category_id
 

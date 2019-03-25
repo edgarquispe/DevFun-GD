@@ -24,6 +24,7 @@ class CartController:
         self._index = 0
         self._billing_id_sale = self.generate_billing_id()
 
+
     def generate_billing_id(self):
         return "BILL"+random.choice("1234567890")
 
@@ -36,6 +37,8 @@ class CartController:
             self.centralWidget.getAddTocartButton().clicked.connect(lambda: self.addToCart())
         if isinstance(self.centralWidget, ProductShowView):
             self.centralWidget.getSaveToPurchaceButton().clicked.connect(lambda: self.addProducts_to_Cart())
+        if isinstance(self.centralWidget, ProductShowView):
+            self.centralWidget.getCategory_ComboBox().currentIndexChanged.connect(lambda: self.loadProduct())
         if isinstance(self.centralWidget, CategoryInsertView):
             self.centralWidget.getSaveCategoryButton().clicked.connect(lambda: self.save_Category_in_db())
             self.centralWidget.getSaveCategoryButton().clicked.connect(lambda: self.clean_the_form_fields())
@@ -75,10 +78,15 @@ class CartController:
         self.cartModel.save_Category(category)
         self.centralWidget.display_message_success_after_save_category()
 
-
     def loadProduct(self):
         self.centralWidget = self.mainView.centralWidget()
-        listProduct = self.cartModel.getAllProduct()
+
+        category_flag = self.centralWidget.get_select_current_category_products()
+        print(category_flag)
+        if int(category_flag) == 0:
+            listProduct = self.cartModel.getAllProduct()
+        else:
+            listProduct = self.cartModel.getAll_products_by_category(category_flag)
 
         listSize = len(listProduct)
 

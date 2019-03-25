@@ -19,6 +19,10 @@ class CartModel:
         query = ProductQuery()
         return query.loadAllProduct()
 
+    def getAll_products_by_category(self, new_category_id):
+        query = ProductQuery()
+        return query.loadAllProductByCategory(new_category_id)
+
     def getAllCategories(self):
         query = QueryCategory()
         return query.loadAllCategories()
