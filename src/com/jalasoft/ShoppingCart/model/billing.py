@@ -5,7 +5,6 @@ class Billing:
     def setBillId(self, billId):
         self.__billId = billId
 
-
     def getProdName(self):
         return self.__prodName
 

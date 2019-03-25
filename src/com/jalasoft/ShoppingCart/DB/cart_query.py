@@ -1,5 +1,6 @@
 from src.com.jalasoft.ShoppingCart.DB.connectionDB import ConnectionDB
 from src.com.jalasoft.ShoppingCart.DB.product_query import ProductQuery
+from src.com.jalasoft.ShoppingCart.model.billing import Billing
 from src.com.jalasoft.ShoppingCart.model.cart import Cart
 
 

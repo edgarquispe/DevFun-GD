@@ -1,6 +1,6 @@
 import random
 
-from PyQt5.QtWidgets import QTableWidgetItem, QLineEdit, QMessageBox
+from PyQt5.QtWidgets import QTableWidgetItem, QLineEdit, QMessageBox, QPushButton
 
 from src.com.jalasoft.ShoppingCart.controller.utilities.utilities import Util
 from src.com.jalasoft.ShoppingCart.model.category import Category
@@ -77,6 +77,20 @@ class CartController:
         category.setCategoryName(category_name)
         self.cartModel.save_Category(category)
         self.centralWidget.display_message_success_after_save_category()
+
+    def loadPurchase(self):
+        self.centralWidget = self.mainView.centralWidget()
+        listPurchase = self.cartModel.get_all_detail_of_purchase()
+        listSize = len(listPurchase)
+
+        self.centralWidget.get_purchase_Table().setRowCount(listSize)
+        index = 0
+        for purchase_item in listPurchase:
+            self.btn_show_purchase_detail = QPushButton("View Detail Purchase")
+            self.centralWidget.get_purchase_Table().setItem(index, 0, QTableWidgetItem(str(purchase_item.getBillId())))
+            self.centralWidget.get_purchase_Table().setCellWidget(index, 1, self.btn_show_purchase_detail)
+
+            index = index + 1
 
     def loadProduct(self):
         self.centralWidget = self.mainView.centralWidget()

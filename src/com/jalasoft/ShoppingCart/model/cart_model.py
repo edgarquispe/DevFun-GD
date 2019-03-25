@@ -27,6 +27,10 @@ class CartModel:
         query = QueryCategory()
         return query.loadAllCategories()
 
+    def get_all_detail_of_purchase(self):
+        self.qPurchase = CartQuery()
+        return self.qPurchase.LoadAllBilling()
+
     def addToCart(self, listProduct):
         self.qProduct = CartQuery()
         for row in listProduct:
