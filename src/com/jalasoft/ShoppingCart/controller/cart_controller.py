@@ -120,7 +120,7 @@ class CartController:
         prod = self.cartList[self._index]
         self.quantity = QLineEdit()
         self.quantity.setValidator(self._validator.validate_Number())
-        self.quantity.editingFinished.connect(lambda: self.getValueQuantity(self._index))
+        self.quantity.editingFinished.connect(lambda: self.getValueQuantity(prod))
         self.centralWidget.getCartTable().setItem(self._index, 0, QTableWidgetItem(str(prod.getProductId())))
         self.centralWidget.getCartTable().setItem(self._index, 1, QTableWidgetItem(prod.getProductName()))
         self.centralWidget.getCartTable().setItem(self._index, 2, QTableWidgetItem(prod.getProductDescription()))
@@ -130,19 +130,23 @@ class CartController:
 
         self._index = self._index + 1
 
-    def getValueQuantity(self, index):
+    def getValueQuantity(self, product):
         billing_id = "Test1"
+
+        for i in range(self._index):
+            pro_id = self.centralWidget.getCartTable().item(i, 0).text()
+            if pro_id == product.getProductId():
+                self.index_cart = i
+                break
         user_id = 1
-        product_id = self.centralWidget.getCartTable().item(index-1, 0).text()
-        quantity_value = self.centralWidget.getCartTable().cellWidget(index-1, 4).text()
-        price_value = self.centralWidget.getCartTable().item(index-1, 3).text()
+        product_id = self.centralWidget.getCartTable().item(self.index_cart, 0).text()
+        quantity_value = self.centralWidget.getCartTable().cellWidget(self.index_cart, 4).text()
+        price_value = self.centralWidget.getCartTable().item(self.index_cart, 3).text()
         total = int(float(price_value)) * int(quantity_value)
-        self.centralWidget.getCartTable().setItem(index-1, 5, QTableWidgetItem(str(total)))
+        self.centralWidget.getCartTable().setItem(self.index_cart, 5, QTableWidgetItem(str(total)))
 
-        purchase = Purchase(billing_id, user_id, product_id, quantity_value, total)
-        self.cart_list_to_purchase.append(purchase)
-
-
+        #purchase = Purchase(billing_id, user_id, product_id, quantity_value, total)
+        #self.cart_list_to_purchase.append(purchase)
 
     def clean_cart_table(self):
         self.cartList = []
