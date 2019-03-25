@@ -61,6 +61,38 @@ class CartQuery:
 
         return cartList
 
+    """Este metodo devuelve la lista de billing que se tiene"""
+    def LoadAllBilling(self):
+        cursor = self.__conn.cursor()
+        cursor.execute(
+            "select b.billing_id from purchase b, product p where p.product_id = b.product_id Group by b.billing_id;")
+        rows = cursor.fetchall()
+
+        BillingtList = []
+        for row in rows:
+            bill = Billing()
+            bill.setBillId(row[0])
+
+            BillingtList.append(bill)
+        return BillingtList
+
+    """Este metodo muestra todo el detalle de la venta pasandole el bill"""
+    def PurchaseDetail(self, bill):
+
+        cursor = self.__conn.cursor()
+        cursor.execute(
+            "select b.billing_id, p.product_name, b.quantity, p.price from purchase b, product p where p.product_id = b.product_id and b.billing_id = '" + bill + "';")
+        rows = cursor.fetchall()
+        ProdDetailList = []
+        for row in rows:
+            prodet = Billing()
+            prodet.setBillId(row[0])
+            prodet.setProdName(row[1])
+            prodet.setProdQuantity(row[2])
+            prodet.setProdPrice(row[3])
+
+            ProdDetailList.append(prodet)
+        return ProdDetailList
 
 # # purchaseList = ("Bill1", 1, 5, 2, 4)
 # c = CartQuery()
