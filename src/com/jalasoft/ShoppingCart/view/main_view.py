@@ -97,6 +97,7 @@ class MainView(QMainWindow):
         toolbar.addAction(exit_item_action)
 
     def exit_app(self):
+        self.close()
         print("Exit App...!!!")
 
     def loadProductInsertView(self):
