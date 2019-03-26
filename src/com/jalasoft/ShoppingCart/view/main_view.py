@@ -65,9 +65,6 @@ class MainView(QMainWindow):
 
         self.addToolBar(toolbar)
         product_menu = self.menuBar().addMenu("&Product")
-        cart_menu = self.menuBar().addMenu("&Cart")
-        sale_menu = self.menuBar().addMenu("&Sale")
-        exit_menu = self.menuBar().addMenu("&Exit")
 
         product_item_action = QAction(QIcon("view/imgs/store.png"), "Insert new Products", self)
         product_item_action.setStatusTip("View of Products...")

@@ -229,3 +229,4 @@ class CartController:
         self.centralWidget.display_message_success()
         self.clean_cart_table()
         self.loadProduct()
+        self._billing_id_sale = self.generate_billing_id()

@@ -32,7 +32,7 @@ class StyleApp:
                         }
                         QLabel{
                             font-family: 'Roboto';
-                            color: white;
+                            color: black;
                             font-size: 15px;
                         }
                         QTableView {
