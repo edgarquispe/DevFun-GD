@@ -67,6 +67,9 @@ class ProductShowView(QWidget):
     def display_message_success(self):
         QMessageBox.information(self, 'Success', 'New Product Registered Successfully in Purchace...')
 
+    def display_message_when_the_cart_list_is_empty(self):
+        QMessageBox.information(self, 'Information', 'No hay ningun registro para guardar en el Carrito...!!!')
+
     def display_message_when_quantity_is_grather_that_stock(self):
         QMessageBox.information(self, 'Warnning', 'La cantidad no puede ser mayor que el Stock...')
 

@@ -244,9 +244,11 @@ class CartController:
 
 
     def addProducts_to_Cart(self):
-        self.cartModel.addToCart(self.cart_list_to_purchase)
-        # print("insert to cart table")
-        self.centralWidget.display_message_success()
-        self.clean_cart_table()
-        self.loadProduct()
-        self._billing_id_sale = self.generate_billing_id()
+        if len(self.cart_list_to_purchase) > 0:
+            self.cartModel.addToCart(self.cart_list_to_purchase)
+            self.centralWidget.display_message_success()
+            self.clean_cart_table()
+            self.loadProduct()
+            self._billing_id_sale = self.generate_billing_id()
+        else:
+            self.centralWidget.display_message_when_the_cart_list_is_empty()
