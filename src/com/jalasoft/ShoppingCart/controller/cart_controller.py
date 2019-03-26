@@ -1,6 +1,7 @@
 import random
 
-from PyQt5.QtWidgets import QTableWidgetItem, QLineEdit, QMessageBox, QPushButton, QDialog, QLabel, QVBoxLayout
+from PyQt5.QtWidgets import QTableWidgetItem, QLineEdit, QMessageBox, QPushButton, QDialog, QLabel, QVBoxLayout, \
+    QTableWidget
 
 from src.com.jalasoft.ShoppingCart.controller.utilities.utilities import Util
 from src.com.jalasoft.ShoppingCart.model.category import Category
@@ -89,27 +90,38 @@ class CartController:
             self.btn_show_purchase_detail = QPushButton("View Detail")
             self.centralWidget.get_purchase_Table().setItem(index, 0, QTableWidgetItem(str(purchase_item.getBillId())))
             self.centralWidget.get_purchase_Table().setCellWidget(index, 1, self.btn_show_purchase_detail)
-            self.btn_show_purchase_detail.clicked.connect(lambda: self.show_detail_purchase_by_billing(purchase_item))
+            self.btn_show_purchase_detail.clicked.connect(lambda: self.show_detail_purchase_by_billing())
             index = index + 1
 
     def buttonclicked(self):
         print(self.btn_show_purchase_detail.parent())
 
-    def show_detail_purchase_by_billing(self, purchase):
+    def show_detail_purchase_by_billing(self):
         print("Show detail purchase by billing....!!")
-
         self.ui_report_purchase = QDialog()
         self.ui_report_purchase.setWindowTitle(".::: Show Detail Purchase :::.")
         self.ui_report_purchase.resize(500, 300)
         self.vLayout_to_report = QVBoxLayout()
-        lb_title = QLabel("_______________Shopping Cart____________________")
-        lb_billing_id = QLabel(purchase.getBillId())
+
+        purchase_index = self.centralWidget.get_purchase_Table().currentRow()
+        billing_id = self.centralWidget.get_purchase_Table().item(purchase_index, 0).text()
+
+        lb_title = QLabel("...::: Shopping Cart :::...")
+        lb_billing_id = QLabel(billing_id)
         btn_report = QPushButton("Print Report Purchase")
 
-        
+        list_purchase_detail = self.cartModel.get_all_detail_of_purchase_by_billing_id(billing_id)
 
+        index = 0
         self.vLayout_to_report.addWidget(lb_title)
         self.vLayout_to_report.addWidget(lb_billing_id)
+
+        for item in list_purchase_detail:
+            detail_purchase_string = str(item.getProdName())+" -- "+str(item.getProdPrice())+" -- "+str(item.getProdQuantity())
+            print(detail_purchase_string)
+            self.vLayout_to_report.addWidget(QLabel(detail_purchase_string))
+            index = index + 1
+
         self.vLayout_to_report.addWidget(btn_report)
 
         self.ui_report_purchase.setLayout(self.vLayout_to_report)
