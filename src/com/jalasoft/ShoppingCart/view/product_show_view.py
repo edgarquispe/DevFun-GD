@@ -29,6 +29,7 @@ class ProductShowView(QWidget):
         self.category_group.setLayout(self.category_form)
 
         self.table = QTableWidget(self)
+        self.table.setAlternatingRowColors(True)
         self.table.setColumnCount(5)
         self.table.setHorizontalHeaderLabels(["ID", "Product Name", "Product Details", "Price", "In Stock"])
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
@@ -37,6 +38,7 @@ class ProductShowView(QWidget):
         self.addButton = QPushButton("Add to Cart", self)
 
         self.cartTable = QTableWidget(self)
+        self.cartTable.setAlternatingRowColors(True)
         self.cartTable.setColumnCount(6)
         self.cartTable.setHorizontalHeaderLabels(["ID", "Product Name", "Product Details", "Price", "Quantity", "Total Price"])
 

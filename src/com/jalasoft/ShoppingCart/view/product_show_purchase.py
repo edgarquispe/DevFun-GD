@@ -20,6 +20,7 @@ class PurchaseShowView(QWidget):
         self.purchase_group.setTitle("Show Purchase")
 
         self.purchase_Table = QTableWidget(self)
+        self.purchase_Table.setAlternatingRowColors(True)
         self.purchase_Table.setColumnCount(2)
         self.purchase_Table.setHorizontalHeaderLabels(["Billing", "Action"])
 

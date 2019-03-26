@@ -86,24 +86,31 @@ class CartController:
         self.centralWidget.get_purchase_Table().setRowCount(listSize)
         index = 0
         for purchase_item in listPurchase:
-            self.btn_show_purchase_detail = QPushButton("View Detail Purchase")
+            self.btn_show_purchase_detail = QPushButton("View Detail")
+            self.btn_show_purchase_detail.sender()
             self.centralWidget.get_purchase_Table().setItem(index, 0, QTableWidgetItem(str(purchase_item.getBillId())))
             self.centralWidget.get_purchase_Table().setCellWidget(index, 1, self.btn_show_purchase_detail)
-            self.btn_show_purchase_detail.clicked.connect(lambda: self.show_detail_purchase_by_billing(index))
+            #self.centralWidget.get_purchase_Table().itemClicked.connect(lambda: self.show_detail_purchase_by_billing())
+            self.btn_show_purchase_detail.clicked.connect(self.buttonclicked)
             index = index + 1
-            print(index)
 
+    def buttonclicked(self):
+        print(self.btn_show_purchase_detail.parent())
 
-    def show_detail_purchase_by_billing(self, purchase_index):
+    def show_detail_purchase_by_billing(self):
         print("Show detail purchase by billing....!!")
         self.ui_report_purchase = QDialog()
         self.ui_report_purchase.setWindowTitle(".::: Show Detail Purchase :::.")
         self.ui_report_purchase.resize(500, 300)
         self.vLayout_to_report = QVBoxLayout()
         lb_title = QLabel("_______________Shopping Cart____________________")
-        billing_id = self.centralWidget.get_purchase_Table().item(purchase_index-1, 0).text()
-        print(purchase_index)
-        print(billing_id)
+        #billing_id = self.centralWidget.get_purchase_Table().item(purchase_index-1, 0).text()
+        #print(purchase_index)
+        #print(billing_id)
+
+        self.btn_show_purchase_detail = self.sender()
+        print(self.btn_show_purchase_detail.parent())
+
         ##lb_billing_id = QLabel(billing_id)
         btn_report = QPushButton("Print Report Purchase")
 
