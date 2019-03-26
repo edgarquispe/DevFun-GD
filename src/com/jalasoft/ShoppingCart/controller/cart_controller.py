@@ -153,6 +153,7 @@ class CartController:
             name = indexes[1].sibling(indexes[1].row(), indexes[1].column()).data();
             description = indexes[2].sibling(indexes[2].row(), indexes[2].column()).data();
             price = indexes[3].sibling(indexes[3].row(), indexes[3].column()).data();
+            stock = indexes[4].sibling(indexes[4].row(), indexes[4].column()).data();
 
             # create product and add to cart
             pro = Product()
@@ -160,6 +161,7 @@ class CartController:
             pro.setProductName(name)
             pro.setProductDescription(description)
             pro.setProductPrice(price)
+            pro.setProductStock(stock)
 
             self.cartList.append(pro)
             self.loadCartTable()
@@ -181,6 +183,7 @@ class CartController:
         self.centralWidget.getCartTable().setRowCount(listSize)
         prod = self.cartList[self._index]
         self.quantity = QLineEdit()
+        self.btn_remove_item = QPushButton("Remove")
         self.quantity.setText("1")
         self.quantity.setValidator(self._validator.validate_Number())
         self.quantity.editingFinished.connect(lambda: self.getValueQuantity(prod))
@@ -190,29 +193,46 @@ class CartController:
         self.centralWidget.getCartTable().setItem(self._index, 3, QTableWidgetItem(str(prod.getProductPrice())))
         self.centralWidget.getCartTable().setCellWidget(self._index, 4, self.quantity)
         self.centralWidget.getCartTable().setItem(self._index, 5, QTableWidgetItem(str(0)))
-
+        #self.centralWidget.getCartTable().setCellWidget(self._index, 6, self.btn_remove_item)
+        #self.btn_remove_item.clicked.connect(lambda: self.remove_row_selected(prod))
         self._index = self._index + 1
+
+    """
+    def remove_row_selected(self, product):
+        for i in range(self._index):
+            pro_id = self.centralWidget.getCartTable().item(i, 0).text()
+            if pro_id == product.getProductId():
+                index_cart = i
+                break
+        print("index tabla ", self.centralWidget.getCartTable().currentRow())
+        self.centralWidget.getCartTable().removeRow(self.centralWidget.getCartTable().currentRow())
+    """
 
     def getValueQuantity(self, product):
         bill = self._billing_id_sale
-        print(bill)
+
         billing_id = bill
 
         for i in range(self._index):
             pro_id = self.centralWidget.getCartTable().item(i, 0).text()
             if pro_id == product.getProductId():
                 self.index_cart = i
+                stock = product.getProductStock()
                 break
 
         user_id = 1
         product_id = self.centralWidget.getCartTable().item(self.index_cart, 0).text()
         quantity_value = self.centralWidget.getCartTable().cellWidget(self.index_cart, 4).text()
         price_value = self.centralWidget.getCartTable().item(self.index_cart, 3).text()
-        total = int(float(price_value)) * int(quantity_value)
-        self.centralWidget.getCartTable().setItem(self.index_cart, 5, QTableWidgetItem(str(total)))
 
-        purchase = Purchase(billing_id, user_id, product_id, quantity_value, total)
-        self.cart_list_to_purchase.append(purchase)
+        if int(quantity_value) < int(stock):
+            total = int(float(price_value)) * int(quantity_value)
+            print(bill)
+            self.centralWidget.getCartTable().setItem(self.index_cart, 5, QTableWidgetItem(str(total)))
+            purchase = Purchase(billing_id, user_id, product_id, quantity_value, total)
+            self.cart_list_to_purchase.append(purchase)
+        else:
+            self.centralWidget.display_message_when_quantity_is_grather_that_stock()
 
 
 

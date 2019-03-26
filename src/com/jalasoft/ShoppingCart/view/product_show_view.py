@@ -67,6 +67,9 @@ class ProductShowView(QWidget):
     def display_message_success(self):
         QMessageBox.information(self, 'Success', 'New Product Registered Successfully in Purchace...')
 
+    def display_message_when_quantity_is_grather_that_stock(self):
+        QMessageBox.information(self, 'Warnning', 'La cantidad no puede ser mayor que el Stock...')
+
     def getCategory_ComboBox(self):
         return self.chbx_category
 
