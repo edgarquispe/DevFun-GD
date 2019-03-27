@@ -46,13 +46,13 @@ class CartModel:
 # p.addToCart(list)
 
 
-p = CartModel()
-#
-# list = p.getAllProduct()
-#
-# for i in list:
-#     print(f"name: {i.getProductName()}, price: {i.getProductPrice()}")
-#
-list1 = p.getAllCategories()
-#
-print(list1)
+# p = CartModel()
+# #
+# # list = p.getAllProduct()
+# #
+# # for i in list:
+# #     print(f"name: {i.getProductName()}, price: {i.getProductPrice()}")
+# #
+# list1 = p.getAllCategories()
+# #
+# print(list1)

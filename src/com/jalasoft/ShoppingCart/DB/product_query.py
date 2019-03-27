@@ -60,21 +60,14 @@ class ProductQuery:
         # print(row[0])
 
         return row[0]
-    # """Method to update a product quantity after a pruchase is executed"""
-    # def updateItem(self, stock, product_id):
-    #     newstock = stock -1
-    #     query = "update product set stock = " + str(newstock) + " where product_id = ?;"
-    #     cur = self.conn.cursor()
-    #     cur.execute(query, product_id)
-    #     self.conn.commit()
-    #
-    # """Method that can be used to delete a product"""
-    # def deleteItem(self, product_id):
-    #     query = " delete from product where product_id = ?;"
-    #     cur = self.conn.cursor()
-    #     cur.execute(query,product_id)
-    #     self.conn.commit()
 
+    def product_Name(self, product_name):
+        cursor = self.__conn.cursor()
+        id = cursor.execute("select product_name from product where product_name = '" + product_name + "';")
+        row = id.fetchone()
+        # print(row[0])
+
+        return row[0]
 
 #
 # p = ProductQuery()

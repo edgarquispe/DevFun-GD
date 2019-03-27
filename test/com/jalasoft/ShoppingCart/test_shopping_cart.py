@@ -2,28 +2,33 @@ import unittest
 
 from src.com.jalasoft.ShoppingCart.DB.product_query import ProductQuery
 from src.com.jalasoft.ShoppingCart.model.product import Product
+from src.com.jalasoft.ShoppingCart.model.cart_model import CartModel
 
 
 class ShoppingCartTest(unittest.TestCase):
     def test_something(self):
         self.assertEqual(True, True)
 
-    def test_add_product(self):
-
-        """self.store.add_product("The Elements Anorak", 148, 100)
-        self.assertTrue(Product.query.filter_by(title="The Elements Anorak"))"""
+    def test_db_add_product(self):
         prod = Product()
-        # prod.setProductId()
-        prod.setProductName("Rings")
+        prod.setProductName("Dresses")
         prod.setProductDescription("This is only a test")
         prod.setProductPrice(55)
         prod.setProductStock(40)
         prod.setProductCategory(1)
 
-
         productIn = ProductQuery()
         productIn.insertProduct(prod)
-        self.assertTrue(productIn.product_Id(str(6)))
+        self.assertTrue(productIn.product_Name("Dresses"))
+
+    def test_model_get_category(self):
+
+        expected = 'toys'
+        cart = CartModel()
+        c1 = cart.getAllCategories()
+        c2 = c1[0].getCategoryName()
+
+        self.assertEqual(expected, c2)
 
 
     def test_get_products(self):

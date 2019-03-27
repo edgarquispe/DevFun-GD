@@ -36,8 +36,8 @@ class ProductInsertView(QWidget):
 
         self.btn_save_product = QPushButton("Save Product", self)
 
-        self.product_name.setValidator(self._validator.validate_String())
-        self.product_description.setValidator(self._validator.validate_String())
+        # self.product_name.setValidator(self._validator.validate_String())
+        # self.product_description.setValidator(self._validator.validate_String())
         self.product_price.setValidator(self._validator.validate_Number())
         self.product_stock.setValidator(self._validator.validate_Number())
 
