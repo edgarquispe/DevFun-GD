@@ -38,5 +38,10 @@ class StyleApp:
                         QTableView {
                             alternate-background-color: #f2f2f2; background-color: white;
                         }
+                        QDialog{
+
+                            padding: 5px;
+                            color: white;
+                        }
                       """
         return self._style
