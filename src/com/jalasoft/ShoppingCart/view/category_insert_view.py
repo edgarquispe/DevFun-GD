@@ -39,7 +39,7 @@ class CategoryInsertView(QWidget):
 
     def clear_fields(self):
         """
-        Metodo que se encarga de limpirar el componente de UI de tipo QLineEdit
+        Metodo que se encarga de limpiar el componente de UI de tipo QLineEdit
         :return:
         """
         self.category_name.setText("")
