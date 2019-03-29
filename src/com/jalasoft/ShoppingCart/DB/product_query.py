@@ -10,15 +10,14 @@ class ProductQuery:
     def insertProduct(self, product):
         cursor = self.__conn.cursor()
         insertQuery = "insert into product(product_name, description, price, stock, category_id) values ('" + product.getProductName() + "','" + product.getProductDescription()+ "', " + str(product.getProductPrice())+ ", " + str(product.getProductStock())+ ", " + str(product.getProductCategory())+ ");"
-        print(insertQuery)
+
         cursor.execute(insertQuery)
         self.__conn.commit()
 
     """This method will load all product and add it to list, this will return a list of objects"""
     def loadAllProduct(self):
-
         cursor = self.__conn.cursor()
-        cursor.execute("select product_id, product_name, description, price from product;")
+        cursor.execute("select product_id, product_name, description, price, stock from product;")
         rows = cursor.fetchall()
 
         productList = []
@@ -28,6 +27,7 @@ class ProductQuery:
             prod.setProductName(row[1])
             prod.setProductDescription(row[2])
             prod.setProductPrice(row[3])
+            prod.setProductStock(row[4])
 
 
             productList.append(prod)
@@ -37,42 +37,51 @@ class ProductQuery:
     """This method will load all product filtered by category and add it to list, this will return a list of objects"""
     def loadAllProductByCategory(self, category_id):
         cursor = self.__conn.cursor()
-        cursor.execute("select product_id, product_name, description, price, from product where category_id = '" + str(category_id) + "';")
+        cursor.execute("select product_id, product_name, description, price, stock from product where category_id = '"+str(category_id)+"';")
         rows = cursor.fetchall()
         productList = []
         for row in rows:
             prod = Product()
             prod.setProductId(row[0])
-
             prod.setProductName(row[1])
             prod.setProductDescription(row[2])
             prod.setProductPrice(row[3])
             prod.setProductStock(row[4])
-            prod.setProductCategory(row[5])
 
             productList.append(prod)
 
         return productList
 
-    """Method to update a product quantity after a pruchase is executed"""
-    def updateItem(self, stock, product_id):
-        newstock = stock -1
-        query = "update product set stock = " + str(newstock) + " where product_id = ?;"
-        cur = self.conn.cursor()
-        cur.execute(query, product_id)
-        self.conn.commit()
+    """Este metodo devuelve la cantidad en stock de un producto"""
+    def product_Id(self, product_id):
+        cursor = self.__conn.cursor()
+        id = cursor.execute("select stock from product where product_id = '" + str(product_id) + "';")
+        row = id.fetchone()
+        # print(row[0])
 
-    """Method that can be used to delete a product"""
-    def deleteItem(self, product_id):
-        query = " delete from product where product_id = ?;"
-        cur = self.conn.cursor()
-        cur.execute(query,product_id)
-        self.conn.commit()
+        return row[0]
 
+    def product_Name(self, product_name):
+        cursor = self.__conn.cursor()
+        id = cursor.execute("select product_name from product where product_name = '" + product_name + "';")
+        row = id.fetchone()
+        # print(row[0])
 
+        return row[0]
+
+#
 # p = ProductQuery()
+# #
+# # list = p.loadAllProduct()
+# #
+# # for i in list:
+# #     print(i.getProductName())
+# prodId = p.product_Id(3)
 #
-# list = p.loadAllProduct()
 #
-# for i in list:
-#     print(i.getProductDescription())
+# print(prodId - 10)
+
+#
+# listA = p.loadAllProductByCategory(1)
+# for a in listA:
+#     print(a.getProductDescription())

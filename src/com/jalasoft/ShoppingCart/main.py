@@ -10,6 +10,9 @@ from src.com.jalasoft.ShoppingCart.view.main_view import MainView
 from src.com.jalasoft.ShoppingCart.view.view import View
 
 if __name__ == "__main__":
+    """
+    Archivo principal donde hacemos la integracion de las capas MVC
+    """
     app = QApplication(sys.argv)
     view = MainView()
     model = CartModel()
