@@ -4,6 +4,11 @@ class StyleApp:
         self._style = ""
 
     def get_style_app(self):
+        """
+        Este metodo se encarga de cargar los estilos para los componentes de UI
+        que se usan en las vistas.
+        :return:
+        """
         self._style = """
                         QMainWindow{background-image: url(view/imgs/bg-2.png); background-size: 100%;}
                         QLineEdit {border-radius: 10px; min-height: 20px; min-width: 20px; padding: 5px;}

@@ -6,13 +6,24 @@ from src.com.jalasoft.ShoppingCart.DB.category_query import QueryCategory
 
 class PurchaseShowView(QWidget):
     def __init__(self):
+        """
+        contructor donde llamamos al metodo initUI
+        """
         super().__init__()
         self.initUI()
 
     def initUI(self):
+        """
+        metodo initUI donde llamamos al metodo initComponent
+        :return:
+        """
         self.initComponent()
 
     def initComponent(self):
+        """
+        Metodo donde inicializamos los componentes de UI de la vista Purchase
+        :return:
+        """
         vLayout = QVBoxLayout()
         self.purchase_vLayout = QVBoxLayout()
         self.purchase_group = QGroupBox()
@@ -33,7 +44,15 @@ class PurchaseShowView(QWidget):
         self.setLayout(vLayout)
 
     def get_purchase_Table(self):
+        """
+        Metodo que retorna la tabla purchase
+        :return:
+        """
         return self.purchase_Table
 
     def display_message_success(self):
+        """
+        Metodo q muetra un mensaje en la UI de tipo Success
+        :return:
+        """
         QMessageBox.information(self, 'Success', 'Show Purchase...')

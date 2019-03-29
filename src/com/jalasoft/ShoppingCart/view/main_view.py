@@ -14,10 +14,23 @@ from src.com.jalasoft.ShoppingCart.view.style import StyleApp
 class MainView(QMainWindow):
 
     def __init__(self):
+        """
+        Constructor que llamamos a la clase super y instanciamos un objeto de tipo StyleApp
+        esta clase tiene todos los estilos que pondremos en nuestros componentes de UI.
+        y cuando las otras vistas se muestres en mainView automaticamente tendran los estilos para todos sus
+        componentes de botones, labels, dialogs, tables, QlineEdit, ComboBox, etc.
+        """
         super().__init__()
         self._style = StyleApp()
 
     def initUI(self, controller):
+        """
+        Metodo initUi donde inciamos algunos atributos de el componente mainView como el titulo para la ventana
+        poner un icon asignarle los estilos y darle un tamaño a la ventana, como tambien hacemos la llama al
+        metodo initComponent y luego mostramos el componente en UI con el metodo show
+        :param controller:
+        :return:
+        """
         self.__controller = controller
         self.setWindowTitle(".::: Shopping Cart :::.")
         self.setWindowIcon(QIcon("view/imgs/shoppingcart.png"))
@@ -29,6 +42,10 @@ class MainView(QMainWindow):
         self.show()
 
     def initComponent(self):
+        """
+        Metodo que se encarga de inicializar los componentes de UI
+        :return:
+        """
         self.add_menu()
         menuBar = self.menuBar()
         prodOption = menuBar.addMenu("Register")
@@ -58,6 +75,10 @@ class MainView(QMainWindow):
         detail_purchaseOption.triggered.connect(lambda: self.loadPurchaseDetail())
 
     def add_menu(self):
+        """
+        Metodo donde incializamos componentes de UI menubar y el Qtoolbar
+        :return:
+        """
         statusBar = QStatusBar()
         self.setStatusBar(statusBar)
         toolbar = QToolBar("ShoppingCart")
@@ -94,24 +115,44 @@ class MainView(QMainWindow):
         toolbar.addAction(exit_item_action)
 
     def exit_app(self):
+        """
+        Metodo que hace una llama al metodo close para cerrar la ventana principal
+        :return:
+        """
         self.close()
         print("Exit App...!!!")
 
     def loadProductInsertView(self):
+        """
+        Metodo que carga el productoView y sus acciones
+        :return:
+        """
         self.setCentralWidget(ProductInsertView())
         self.__controller.addActionListener()
 
     def loadProductShowView(self):
+        """
+        Metodo que carga el ProductShowView y sus acciones
+        :return:
+        """
         self.setCentralWidget(ProductShowView())
         self.__controller.loadProduct()
         self.__controller.addActionListener()
         self.__controller.clean_cart_table()
 
     def loadProductInsertCategoryView(self):
+        """
+        Metodo que carga el CategoryView y sus acciones
+        :return:
+        """
         self.setCentralWidget(CategoryInsertView())
         self.__controller.addActionListener()
 
     def loadPurchaseDetail(self):
+        """
+        Metodo que carga el PurchaseView y sus acciones
+        :return:
+        """
         self.setCentralWidget(PurchaseShowView())
         self.__controller.loadPurchase()
         self.__controller.addActionListener()
