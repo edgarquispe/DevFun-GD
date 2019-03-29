@@ -10,6 +10,7 @@ from src.com.jalasoft.ShoppingCart.model.purchase import Purchase
 from src.com.jalasoft.ShoppingCart.view.category_insert_view import CategoryInsertView
 from src.com.jalasoft.ShoppingCart.view.product_insert_view import ProductInsertView
 from src.com.jalasoft.ShoppingCart.view.product_show_view import ProductShowView
+from src.com.jalasoft.ShoppingCart.view.style import StyleApp
 
 
 class CartController:
@@ -98,8 +99,10 @@ class CartController:
 
     def show_detail_purchase_by_billing(self):
         print("Show detail purchase by billing....!!")
+        self._style = StyleApp()
         self.ui_report_purchase = QDialog()
         self.ui_report_purchase.setWindowTitle(".::: Show Detail Purchase :::.")
+        self.ui_report_purchase.setStyleSheet(self._style.get_style_app())
         self.ui_report_purchase.resize(500, 300)
         self.vLayout_to_report = QVBoxLayout()
 
@@ -107,7 +110,7 @@ class CartController:
         billing_id = self.centralWidget.get_purchase_Table().item(purchase_index, 0).text()
 
         lb_title = QLabel("...::: Shopping Cart :::...")
-        lb_billing_id = QLabel(billing_id)
+        lb_billing_id = QLabel("Billing: "+billing_id+"\n________________________________")
         btn_report = QPushButton("Print Report Purchase")
 
         list_purchase_detail = self.cartModel.get_all_detail_of_purchase_by_billing_id(billing_id)
@@ -115,13 +118,15 @@ class CartController:
         index = 0
         self.vLayout_to_report.addWidget(lb_title)
         self.vLayout_to_report.addWidget(lb_billing_id)
-
+        suma = 0
         for item in list_purchase_detail:
             detail_purchase_string = str(item.getProdName())+" -- "+str(item.getProdPrice())+" -- "+str(item.getProdQuantity())
+            suma = suma + int(item.getProdQuantity())
             print(detail_purchase_string)
             self.vLayout_to_report.addWidget(QLabel(detail_purchase_string))
             index = index + 1
 
+        self.vLayout_to_report.addWidget(QLabel("_________________________________\nTotal: "+str(suma)))
         self.vLayout_to_report.addWidget(btn_report)
 
         self.ui_report_purchase.setLayout(self.vLayout_to_report)
