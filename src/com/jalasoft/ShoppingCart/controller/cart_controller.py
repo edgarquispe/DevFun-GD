@@ -15,7 +15,13 @@ from src.com.jalasoft.ShoppingCart.view.style import StyleApp
 
 class CartController:
 
+
+
     def __init__(self, mainView, cartModel):
+        """
+        Constructor that recieve View, Model objects and assigs to a variables, also calls to initUI method to
+        initialize his components. Also initialize a cart list to purcharse , creates a Util object.
+        """
         # mainView.initUI()
         self.mainView = mainView
         self.cartModel = cartModel
@@ -30,7 +36,11 @@ class CartController:
     def generate_billing_id(self):
         return "BILL"+random.choice("1234567890")
 
+
     def addActionListener(self):
+        """
+        Methods that manage all the events according every Widget call
+        """
         self.centralWidget = self.mainView.centralWidget()
         if isinstance(self.centralWidget, ProductInsertView):
             self.centralWidget.getSaveProductButton().clicked.connect(lambda: self.saveProduct())
@@ -47,10 +57,17 @@ class CartController:
 
 
     def clean_the_form_fields(self):
+
+        """
+        Method that clean all the form fields
+        """
         self.centralWidget = self.mainView.centralWidget()
         self.centralWidget.clear_fields()
 
     def saveProduct(self):
+        """
+        Method to save the product
+        """
 
         # self.clean_cart_table()
         self.centralWidget = self.mainView.centralWidget()
@@ -72,6 +89,9 @@ class CartController:
         self.centralWidget.display_message_success_after_save_product()
 
     def save_Category_in_db(self):
+        """
+        Method to save all Categories in DB
+        """
         self.centralWidget = self.mainView.centralWidget()
         category_name = self.centralWidget.getCategoryName()
 
@@ -81,6 +101,9 @@ class CartController:
         self.centralWidget.display_message_success_after_save_category()
 
     def loadPurchase(self):
+        """
+        Method to load all the purchase made
+        """
         self.centralWidget = self.mainView.centralWidget()
         listPurchase = self.cartModel.get_all_detail_of_purchase()
         listSize = len(listPurchase)
@@ -97,7 +120,16 @@ class CartController:
     def buttonclicked(self):
         print(self.btn_show_purchase_detail.parent())
 
+        """
+        Method that maange the purchase detail 
+        """
+
+
     def show_detail_purchase_by_billing(self):
+
+        """
+        Method that shows the detail of the purchase according the billing
+        """
         print("Show detail purchase by billing....!!")
         self._style = StyleApp()
         self.ui_report_purchase = QDialog()
@@ -134,6 +166,9 @@ class CartController:
 
 
     def loadProduct(self):
+        """
+        Method to load products
+        """
         self.centralWidget = self.mainView.centralWidget()
 
         category_flag = self.centralWidget.get_select_current_category_products()
@@ -155,7 +190,11 @@ class CartController:
             self.centralWidget.getTable().setItem(index, 4, QTableWidgetItem(str(prod.getProductStock())))
             index = index + 1
 
+
     def addToCart(self):
+        """
+        Method to add the items to the cart
+        """
         indexes = self.centralWidget.getTable().selectionModel().selectedIndexes()
         id = indexes[0].sibling(indexes[0].row(), indexes[0].column()).data();
 
@@ -176,6 +215,11 @@ class CartController:
             self.cartList.append(pro)
             self.loadCartTable()
 
+
+    """
+    Method that verifies if the product is in the list of the cart
+    """
+
     def __isProductInList(self, id):
         for prod in self.cartList:
             if id == prod.getProductId():
@@ -183,11 +227,19 @@ class CartController:
         return False
 
 
+    """
+    Method that return the new list of the cart
+    """
     def get_cart_list(self):
         new_list = list(set(self.cartList))
         print(new_list)
         return new_list
 
+
+    """
+    Method that load the cart Table
+
+    """
     def loadCartTable(self):
         listSize = len(self.cartList)
         self.centralWidget.getCartTable().setRowCount(listSize)
@@ -218,6 +270,10 @@ class CartController:
         self.centralWidget.getCartTable().removeRow(self.centralWidget.getCartTable().currentRow())
     """
 
+    """
+    Method to get the total of the quantity value
+
+    """
     def getValueQuantity(self, product):
         bill = self._billing_id_sale
 
@@ -245,14 +301,20 @@ class CartController:
             self.centralWidget.display_message_when_quantity_is_grather_that_stock()
 
 
+        """
+        Method that clean the cart Table
 
+        """
     def clean_cart_table(self):
         self.cartList = []
         self.cart_list_to_purchase = []
         self._index = 0
         self.centralWidget.getCartTable().setRowCount(0)
 
+        """
+        Method that add products to the cart
 
+        """
     def addProducts_to_Cart(self):
         if len(self.cart_list_to_purchase) > 0:
             self.cartModel.addToCart(self.cart_list_to_purchase)
