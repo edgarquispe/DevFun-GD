@@ -8,6 +8,8 @@ class CartQuery:
     def __init__(self):
         self.__conn = ConnectionDB().getConnection()
 
+    """Metodo para insertar los producto comprados"""
+
     def insertCart(self, productPurchase):
         cursor = self.__conn.cursor()
         # print("DB insert ....")
@@ -17,11 +19,7 @@ class CartQuery:
         prod_quantity = productPurchase.get_quantity()
         prod_total = productPurchase.get_price()
 
-        # print(billing_id)
-        # print(user_id)
-        # print(prod_id)
-        # print(prod_quantity)
-        # print(prod_total)
+
 
         insertQuery = "insert into purchase(billing_id, user_id, product_id, quantity, price) values ('" + str(billing_id) + "','" + str(user_id)+ "', " + str(prod_id)+ ", " + str(prod_quantity)+ ", " + str(prod_total)+ ");"
         cursor.execute(insertQuery)
@@ -40,7 +38,7 @@ class CartQuery:
 
         self.__conn.commit()
 
-
+    """Metodo que devuelve una lista con los productos de la compra"""
     def loadAllCart(self):
 
         cursor = self.__conn.cursor()
@@ -61,6 +59,16 @@ class CartQuery:
             cartList.append(cart)
 
         return cartList
+
+
+    def purchase_Bill(self, bill):
+        cursor = self.__conn.cursor()
+        bill = cursor.execute("select billing_id from purchase where billing_id = '" + bill + "';")
+        row = bill.fetchone()
+        # print(row[0])
+
+        return row[0]
+
 
     """Este metodo devuelve la lista de billing que se tiene"""
     def LoadAllBilling(self):

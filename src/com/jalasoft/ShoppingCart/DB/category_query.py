@@ -29,6 +29,14 @@ class QueryCategory:
             categoryList.append(cate)
 
         return categoryList
+    
+    def category_Name(self, category_name):
+        cursor = self.__conn.cursor()
+        name = cursor.execute("select category_name from category where category_name = '" + category_name + "';")
+        row = name.fetchone()
+        # print(row[0])
+
+        return row[0]
 
 
 
